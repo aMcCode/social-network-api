@@ -26,7 +26,6 @@ const thoughtController = {
   },
 
   createThought({ body }, res) {
-    console.log(body);
     Thought.create(body)
       .then(dbThoughtData => {
         User.findOneAndUpdate(
@@ -69,7 +68,8 @@ const thoughtController = {
   },
 
   addReaction( req, res) {
-    Thought.findOneAndUpdate({ _id: req.params.reactionId }, {$push: {reactions: req.body }}, { new: true })
+    console.log(req);
+    Thought.findOneAndUpdate({ _id: req.params.thoughtId }, {$push: {reactions: req.body }}, { new: true })
       .then(dbThoughtData => {
         if (!dbThoughtData) {
           res.status(404).json({ message: 'No thought found with this id!' });
